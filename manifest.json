@@ -1,0 +1,35 @@
+{
+  "manifest_version": 3,
+  "name": "Facebook Auto Commenter",
+  "version": "2.0.0",
+  "description": "Comenta automáticamente en posts de fan pages de Facebook",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting",
+    "tabs"
+  ],
+  "host_permissions": [
+    "https://www.facebook.com/*",
+    "https://facebook.com/*"
+  ],
+  "background": {
+    "service_worker": "src/background.js"
+  },
+  "action": {
+    "default_title": "Facebook Auto Commenter"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.facebook.com/*", "https://facebook.com/*"],
+      "js": ["src/content.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["src/dashboard.html", "src/injected-script.js"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

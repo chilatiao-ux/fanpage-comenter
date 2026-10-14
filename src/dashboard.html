@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook Auto Commenter - Dashboard</title>
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-content">
+                <h1>📱 Facebook Auto Commenter</h1>
+                <p class="subtitle">Comenta automáticamente en fan pages</p>
+            </div>
+            <div class="header-actions">
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <div style="display: flex; gap: 5px;">
+                        <label style="color: white; font-size: 14px;">Modo:</label>
+                        <select id="startMode" class="input-field" style="width: 150px; padding: 8px;">
+                            <option value="new">Nuevo (Resetear)</option>
+                            <option value="resume">Reanudar</option>
+                        </select>
+                    </div>
+                    <button id="startBtn" class="btn btn-success btn-lg">▶️ Iniciar</button>
+                    <button id="stopBtn" class="btn btn-danger btn-lg" disabled>⏹️ Detener</button>
+                    <button id="skipPageBtn" class="btn btn-warning btn-lg" disabled>⏭️ Saltar Fan Page</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="container">
+            <!-- Left Panel -->
+            <div class="left-panel">
+                <!-- Fan Pages Section -->
+                <div class="section">
+                    <h2>📋 Fan Pages</h2>
+                    <div class="tabs-mini">
+                        <button class="tab-mini active" data-tab="single">Una por una</button>
+                        <button class="tab-mini" data-tab="multiple">Pegar múltiples</button>
+                    </div>
+                    
+                    <!-- Single URL Tab -->
+                    <div id="single-tab" class="tab-mini-content active">
+                        <div class="input-group">
+                            <input type="text" id="fanPageUrl" placeholder="https://www.facebook.com/fanpage" class="input-field">
+                            <button id="addPageBtn" class="btn btn-primary">Agregar</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Multiple URLs Tab -->
+                    <div id="multiple-tab" class="tab-mini-content">
+                        <textarea id="fanPageUrls" class="textarea" placeholder="Pega aquí todas las URLs (una por línea)&#10;Ejemplo:&#10;https://www.facebook.com/pagina1&#10;https://www.facebook.com/pagina2&#10;https://www.facebook.com/pagina3"></textarea>
+                        <button id="addMultipleBtn" class="btn btn-primary btn-block">Agregar Todas</button>
+                    </div>
+                    
+                    <div id="fanPagesList" class="list">
+                        <p class="empty-message">No hay fan pages agregadas</p>
+                    </div>
+                </div>
+
+                <!-- Backup Fan Page Section -->
+                <div class="section">
+                    <h2>🔄 Fan Page de Respaldo</h2>
+                    <p style="font-size: 12px; color: #666; margin-bottom: 10px;">Si se detecta limitación o otro perfil, ir a esta fan page</p>
+                    <div class="input-group">
+                        <input type="text" id="backupFanPageUrl" placeholder="https://www.facebook.com/fanpage" class="input-field">
+                        <button id="setBackupBtn" class="btn btn-primary">Configurar</button>
+                    </div>
+                    <div id="backupPageDisplay" class="list" style="margin-top: 10px;">
+                        <p class="empty-message">No hay fan page de respaldo configurada</p>
+                    </div>
+                </div>
+
+                <!-- Mentioned Pages Section -->
+                <div class="section">
+                    <h2>🏷️ Fan Pages a Mencionar</h2>
+                    <div class="input-group">
+                        <input type="text" id="mentionPageName" placeholder="Nombre de la fan page" class="input-field">
+                        <button id="addMentionBtn" class="btn btn-primary">Agregar</button>
+                    </div>
+                    <div id="mentionPagesList" class="list">
+                        <p class="empty-message">No hay fan pages para mencionar</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel -->
+            <div class="right-panel">
+                <!-- Comment Text Section -->
+                <div class="section">
+                    <h2>💬 Texto del Comentario</h2>
+                    <textarea id="commentText" class="textarea" placeholder="Ingresa el texto del comentario..."></textarea>
+                    <button id="resetCommentBtn" class="btn btn-secondary btn-block">Restaurar Predeterminado</button>
+                </div>
+
+                <!-- Settings Section -->
+                <div class="section">
+                    <h2>⏱️ Configuración</h2>
+                    <div class="setting-group">
+                        <label for="postsPerPage">Posts por Fan Page:</label>
+                        <input type="number" id="postsPerPage" min="1" max="20" value="5" class="input-field">
+                    </div>
+                    <div class="setting-group">
+                        <label for="delayBetweenPosts">Delay entre Posts (ms):</label>
+                        <input type="number" id="delayBetweenPosts" min="1000" max="60000" value="3000" step="1000" class="input-field">
+                    </div>
+                    <div class="setting-group">
+                        <label for="delayBetweenPages">Delay entre Fan Pages (ms):</label>
+                        <input type="number" id="delayBetweenPages" min="1000" max="60000" value="5000" step="1000" class="input-field">
+                    </div>
+                    <button id="saveConfigBtn" class="btn btn-success btn-block">💾 Guardar Configuración</button>
+                </div>
+
+                <!-- Status Section -->
+                <div class="section status-section">
+                    <h2>📊 Estado</h2>
+                    <div class="status-item">
+                        <span class="label">Estado:</span>
+                        <span id="statusRunning" class="value">🔴 Detenido</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="label">Comentarios:</span>
+                        <span id="statusCommented" class="value">0</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="label">Última actualización:</span>
+                        <span id="statusLastUpdate" class="value">-</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>
